@@ -15,7 +15,7 @@ export default defineConfig({
     outDir: "dist",
     rollupOptions: {
       input: {
-        taskpane: "src/taskpane/index.html",
+        taskpane: "index.html",
       },
     },
   },
