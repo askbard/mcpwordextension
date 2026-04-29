@@ -1,6 +1,8 @@
 # MCP Office Extension
 
-A Microsoft Office add-in that brings AI chat, selection actions, and MCP (Model Context Protocol) tool support directly into Word, Excel, and PowerPoint. Bring your own API key — no backend required.
+Use any AI model with MCP tool support directly inside Microsoft Word, Excel, and PowerPoint. Bring your own API key — no backend, no subscription required.
+
+**Live add-in:** `https://askbard.github.io/mcpwordextension/`
 
 ---
 
@@ -11,130 +13,110 @@ A Microsoft Office add-in that brings AI chat, selection actions, and MCP (Model
 - **MCP Servers** — Connect any remote MCP server and give the AI access to external tools
 - **Settings** — Configure your AI provider, API key, model, and system prompt
 
+---
+
+## Quick Install (End Users)
+
+> No Node.js or technical setup needed. Just two steps.
+
+### Step 1 — Download the manifest
+
+👉 [Download manifest-production.xml](https://raw.githubusercontent.com/askbard/mcpwordextension/main/manifest-production.xml)
+
+Right-click the link → **Save link as** → save as `manifest-production.xml`
+
+### Step 2 — Sideload into Office
+
+**Word / Excel / PowerPoint (Desktop — Windows or Mac)**
+
+1. Open Word, Excel, or PowerPoint
+2. Click **Insert** in the top menu
+3. Click **Add-ins** → **My Add-ins**
+4. Click **Upload My Add-in**
+5. Select the `manifest-production.xml` file you just downloaded
+6. Click **Upload**
+
+The **MCP AI** button will appear in the **Home** ribbon. Click it to open the panel.
+
+**Word Online / Excel Online / PowerPoint Online**
+
+1. Click **Insert** in the top menu
+2. Click **Add-ins**
+3. Click **Upload My Add-in**
+4. Select `manifest-production.xml`
+5. Click **Upload**
+
+---
+
+### Step 3 — Get an API key
+
+OpenRouter is recommended — one key gives access to Claude, GPT-4, Gemini, and 100+ other models.
+
+1. Go to [openrouter.ai](https://openrouter.ai) and sign up (free)
+2. Go to **Keys** → **Create Key**
+3. Copy the key (starts with `sk-or-...`)
+
+### Step 4 — Configure the add-in
+
+1. In Office, click **MCP AI** in the ribbon to open the panel
+2. Go to the **Settings** tab
+3. Select **OpenRouter** as the provider
+4. Paste your API key
+5. Choose a model (e.g. `anthropic/claude-3.5-sonnet`)
+6. Click **Save**
+
+You're ready to go. Start chatting in the **Chat** tab or select text and use **Actions**.
+
+---
+
+## Using MCP Servers (Optional)
+
+MCP servers give the AI access to external tools like web search, databases, or your own APIs.
+
+1. Open the panel and go to the **MCP** tab
+2. Click **Add**
+3. Enter a name and the server URL (e.g. `https://your-mcp-server.com/mcp`)
+4. Optionally add auth headers (e.g. `{"Authorization": "Bearer your-token"}`)
+5. Click **Add Server**, then click the **sync icon** to connect
+6. Connected tools are automatically available to the AI in the Chat tab
+
+---
+
 ## Supported AI Providers
 
 | Provider | Notes |
 |---|---|
-| OpenRouter | Recommended — access Claude, GPT-4, Gemini and more with one key |
+| OpenRouter | Recommended — Claude, GPT-4, Gemini and 100+ models with one key |
 | OpenAI | Direct GPT-4o, o1, etc. |
 | Google Gemini | Direct Gemini 2.0 Flash, 1.5 Pro, etc. |
 | OpenAI-compatible | Ollama, Groq, Together, any custom endpoint |
 
 ---
 
-## Installation (End Users)
-
-No npm or Node.js needed. Just sideload the manifest file into Office.
-
-### Step 1 — Download the manifest
-
-Download **`manifest-production.xml`** from this repository. This file already points to the live GitHub Pages deployment — no edits needed.
-
-### Step 2 — Sideload into Office
-
-**Word / Excel / PowerPoint on Windows or Mac:**
-
-1. Open the Office app
-2. Go to **Insert → Add-ins → My Add-ins**
-3. Click **Upload My Add-in**
-4. Select the `manifest.xml` file you downloaded
-5. Click **Upload**
-
-The **MCP AI** button will appear in the **Home** ribbon. Click it to open the side panel.
-
-**Word Online / Excel Online:**
-
-1. Go to **Insert → Add-ins**
-2. Click **Upload My Add-in**
-3. Select `manifest.xml`
-
-### Step 3 — Configure your API key
-
-1. Click **MCP AI** in the ribbon to open the panel
-2. Go to the **Settings** tab
-3. Select your provider (OpenRouter is recommended)
-4. Enter your API key
-5. Choose a model
-6. Click **Save**
-
-> **Getting an OpenRouter key:** Sign up at [openrouter.ai](https://openrouter.ai), go to Keys, and create a new key. OpenRouter gives access to Claude, GPT-4, Gemini and many other models under one key.
-
----
-
-## Development Setup
+## Developer Setup
 
 Requirements: Node.js 18+ and npm.
 
-### 1. Clone and install
+### Run locally
 
 ```bash
 git clone https://github.com/askbard/mcpwordextension.git
 cd mcpwordextension
 npm install
-```
-
-### 2. Start the dev server
-
-```bash
 npm run dev
 ```
 
-This starts a local HTTPS server at `https://localhost:3000`. The HTTPS certificate is generated automatically by `vite-plugin-mkcert` on first run — accept the certificate prompt if your browser asks.
+This starts a local HTTPS server at `https://localhost:3000`. Sideload `manifest.xml` (not the production one) for local development.
 
 > The dev server must keep running while you test in Office. Stop it with `Ctrl+C` when done.
 
-### 3. Sideload the manifest
-
-The default `manifest.xml` already points to `https://localhost:3000`, so no edits needed for local development.
-
-Follow the sideload steps in the Installation section above using the `manifest.xml` from the repo root.
-
-### 4. Make changes
-
-Edit files under `src/`. Vite hot-reloads automatically — just refresh the add-in panel in Office to see changes.
-
----
-
-## Deploying to Production
-
-### GitHub Pages (automatic)
-
-The repository includes a GitHub Actions workflow that builds and deploys to GitHub Pages automatically on every push to `main`.
-
-**One-time setup:**
-
-1. Go to your repository on GitHub
-2. Navigate to **Settings → Pages**
-3. Under **Source**, select **GitHub Actions**
-4. Push to `main` — the workflow runs automatically
-
-The add-in will be live at:
-```
-https://askbard.github.io/mcpwordextension/
-```
-
-Users sideload `manifest-production.xml` which already points to this URL.
-
-### Manual deploy (any static host)
+### Build for production
 
 ```bash
 npm run build
 ```
 
-Upload the `dist/` folder to any HTTPS host (Netlify, Vercel, etc.) and update the URLs in `manifest-production.xml` to match your domain.
-
----
-
-## Adding MCP Servers
-
-1. Open the panel and go to the **MCP** tab
-2. Click **Add**
-3. Enter a name and the server URL (must be an HTTP/SSE endpoint, e.g. `https://your-mcp-server.com/mcp`)
-4. Optionally add auth headers (e.g. `{"Authorization": "Bearer your-token"}`)
-5. Click **Add Server**, then click the sync icon to connect
-6. Available tools appear listed under the server once connected
-
-Connected tools are automatically available to the AI in the **Chat** tab.
+Output goes to `dist/`. Deploy to any static HTTPS host and update the URLs in `manifest-production.xml`.
 
 ---
 
@@ -154,7 +136,8 @@ src/
         ├── ActionsPanel.tsx
         ├── McpPanel.tsx
         └── SettingsPanel.tsx
-manifest.xml                    # Office add-in manifest
+manifest.xml                    # Manifest for local development
+manifest-production.xml         # Manifest for GitHub Pages deployment
 ```
 
 ---
@@ -162,5 +145,5 @@ manifest.xml                    # Office add-in manifest
 ## Security Notes
 
 - API keys are stored in your browser's `localStorage` — they never leave your machine
-- MCP servers are called directly from the browser; ensure your MCP server supports CORS if hosted remotely
+- MCP servers are called directly from the browser; ensure your MCP server supports CORS
 - The add-in requests `ReadWriteDocument` permission to read selections and insert text
