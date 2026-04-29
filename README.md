@@ -28,9 +28,7 @@ No npm or Node.js needed. Just sideload the manifest file into Office.
 
 ### Step 1 — Download the manifest
 
-Download `manifest.xml` from this repository.
-
-Open it in a text editor and replace both occurrences of `https://localhost:3000` with the hosted URL where the add-in is deployed (ask whoever shared this with you for the URL).
+Download **`manifest-production.xml`** from this repository. This file already points to the live GitHub Pages deployment — no edits needed.
 
 ### Step 2 — Sideload into Office
 
@@ -99,35 +97,31 @@ Edit files under `src/`. Vite hot-reloads automatically — just refresh the add
 
 ## Deploying to Production
 
-### Build
+### GitHub Pages (automatic)
+
+The repository includes a GitHub Actions workflow that builds and deploys to GitHub Pages automatically on every push to `main`.
+
+**One-time setup:**
+
+1. Go to your repository on GitHub
+2. Navigate to **Settings → Pages**
+3. Under **Source**, select **GitHub Actions**
+4. Push to `main` — the workflow runs automatically
+
+The add-in will be live at:
+```
+https://askbard.github.io/mcpwordextension/
+```
+
+Users sideload `manifest-production.xml` which already points to this URL.
+
+### Manual deploy (any static host)
 
 ```bash
 npm run build
 ```
 
-Output goes to the `dist/` folder.
-
-### Host the files
-
-Upload the contents of `dist/` to any static HTTPS host:
-
-- **Netlify** — drag and drop the `dist/` folder at [app.netlify.com/drop](https://app.netlify.com/drop)
-- **GitHub Pages** — push `dist/` to the `gh-pages` branch
-- **Vercel** — `npx vercel` in the project root
-
-### Update the manifest
-
-Open `manifest.xml` and replace all instances of `https://localhost:3000` with your deployed URL, for example:
-
-```xml
-<!-- Before -->
-DefaultValue="https://localhost:3000/src/taskpane/index.html"
-
-<!-- After -->
-DefaultValue="https://your-app.netlify.app/src/taskpane/index.html"
-```
-
-Share the updated `manifest.xml` with your users.
+Upload the `dist/` folder to any HTTPS host (Netlify, Vercel, etc.) and update the URLs in `manifest-production.xml` to match your domain.
 
 ---
 
