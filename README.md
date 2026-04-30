@@ -27,7 +27,7 @@ Right-click the link → **Save link as** → save as `manifest-production.xml`
 
 ### Step 2 — Sideload into Office
 
-**Word / Excel / PowerPoint (Desktop — Windows or Mac)**
+**Windows (Desktop)**
 
 1. Open Word, Excel, or PowerPoint
 2. Click **Insert** in the top menu
@@ -37,6 +37,27 @@ Right-click the link → **Save link as** → save as `manifest-production.xml`
 6. Click **Upload**
 
 The **MCP AI** button will appear in the **Home** ribbon. Click it to open the panel.
+
+**Mac (Desktop) — Method 1: Upload My Add-in**
+
+1. Open Word, Excel, or PowerPoint
+2. Click **Insert** in the menu bar
+3. Click **Add-ins**
+4. In the dialog, click **"..."** or look for **Upload My Add-in**
+5. Select `manifest-production.xml`
+
+**Mac (Desktop) — Method 2: Manual folder (most reliable)**
+
+If Method 1 doesn't work:
+
+1. Quit Word (or Excel/PowerPoint) completely
+2. Open **Finder** → press **Cmd+Shift+G** → paste the path for your app:
+   - Word: `~/Library/Containers/com.microsoft.Word/Data/Documents/wef`
+   - Excel: `~/Library/Containers/com.microsoft.Excel/Data/Documents/wef`
+   - PowerPoint: `~/Library/Containers/com.microsoft.Powerpoint/Data/Documents/wef`
+3. If the `wef` folder doesn't exist, create it
+4. Copy `manifest-production.xml` into that folder
+5. Reopen the Office app — go to **Insert → Add-ins → My Add-ins** to find it
 
 **Word Online / Excel Online / PowerPoint Online**
 
